@@ -1,0 +1,82 @@
+/* Styles pour la mise en forme de base */
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.products {
+  display: flex;
+  justify-content: space-around;
+}
+
+.product {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  width: 250px;
+  text-align: center;
+}
+
+.product img {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.cart {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.cart h2 {
+  text-align: center;
+}
+
+.cart ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cart button {
+  display: block;
+  margin: 10px auto;
+  padding: 5px 10px;
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cart button:hover {
+  background-color: #005f6b;
+}
+
+
+/* Votre CSS existant */
+
+/* Nouveau style pour positionner le panier à droite */
+.main-content {
+  display: flex;
+}
+
+.products {
+  flex: 1;
+}
+
+.cart {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width: 250px; /* Ajustez la largeur selon votre préférence */
+  margin-left: 20px; /* Ajout de marge pour l'espace */
+}
+
+

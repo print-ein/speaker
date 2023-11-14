@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Page de Paiement</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Page de Paiement</h1>
+
+   <div class="payment-form">
+    <form id="payment-form">
+      <label for="name">Nom :</label>
+      <input type="text" id="name" name="name" required><br><br>
+
+      <label for="address">Adresse :</label>
+      <input type="text" id="address" name="address" required><br><br>
+
+      <label for="card">Numéro de carte :</label>
+      <input type="text" id="card" name="card" required><br><br>
+
+      <label for="expiry">Date d'expiration :</label>
+      <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required><br><br>
+
+      <label for="cvv">CVV :</label>
+      <input type="text" id="cvv" name="cvv" required><br><br>
+
+      <button type="submit">Payer</button>
+    </form>
+  </div>
+
+
+
+     
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="script.js"></script>
+  <script>
+    const stripe = Stripe('pk_live_51NID2BAGHCS2IVlyKTnlpEsDpVM20wph80XFEG24VnSlh2JSp1OqHFlutrBHiPxcoOIhYAQdoklbBMRQws3cRC3U00tsrEOTxW');
+
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+    cardElement.mount('#card');
+
+    document.getElementById('pay-btn').addEventListener('click', async () => {
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement,
+        // Ajoutez ici les détails de facturation (nom, adresse, etc.)
+        
+         billing_details: {
+          name: document.getElementById('name').value,
+          address: {
+            line1: document.getElementById('address').value,
+          },
+        },
+      
+      });
+      if (error) {
+        console.error(error);
+        // Gérer les erreurs lors de la création du paiement
+      } else {
+        // Envoyer le paiementMethod.id au serveur pour finaliser le paiement
+        // Par exemple : fetch('/process_payment', { method: 'POST', body: JSON.stringify({ payment_method_id: paymentMethod.id }) });
+        console.log(paymentMethod);
+        alert('Paiement effectué avec succès !');
+        // Réinitialiser le formulaire après un paiement réussi
+        document.getElementById('payment-form').reset();
+      }
+    });
+    
+    
+    
+    
+    
+    
+  </div>
+    <div id="paypal-button-container"></div>
+</div>
+    <!-- Script pour créer le bouton de paiement -->
+    <script>
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                // Cette fonction est appelée lorsqu'un utilisateur clique sur le bouton de paiement.
+                // Elle doit renvoyer un ID de commande unique à PayPal.
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '10.00' // Montant du paiement en euros
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                // Cette fonction est appelée lorsqu'un paiement est approuvé.
+                // Vous pouvez ajouter des actions supplémentaires ici, par exemple, enregistrer le paiement dans votre base de données.
+                alert('Paiement approuvé!');
+            }
+        }).render('#paypal-button-container');
+  </script>
+</body>
+</html>
+
+
+
+
